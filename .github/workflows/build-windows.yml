@@ -28,7 +28,7 @@ jobs:
         run: |
           pip install uv
           uv venv
-          uv pip install . pyinstaller
+          uv pip install . pyinstaller imageio-ffmpeg
 
       # 4. Run the build script
       - name: Run PyInstaller build script
