@@ -34,76 +34,69 @@ svgnim/
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Getting Started
 
-1. **Install Dependencies**
+### For Linux (Recommended)
 
-   Make sure you have Python 3.13+ and [Manim](https://docs.manim.community/en/stable/installation.html) installed.
+This project includes a setup script to automate the installation process.
 
-   ```sh
-   pip install -r requirements.txt
-   # or, if using pyproject.toml:
-   pip install .
-   ```
+1.  **Clone the repository:**
+    ```sh
+    git clone https://github.com/asup20cs/svgnim.git
+    cd svgnim
+    ```
 
-2. **Add SVGs**
+2.  **Run the setup script:**
+    This will create a virtual environment and install all necessary dependencies.
+    ```sh
+    chmod +x setup.sh
+    ./setup.sh
+    ```
 
-   Place your SVG files in `svgs/input/`.
+3.  **Activate the environment and run the GUI:**
+    ```sh
+    source .venv/bin/activate
+    python gui.py
+    ```
 
-3. **Render Animations**
+### For Windows & Manual Setup
 
-   Run the batch renderer:
+1.  **Prerequisites:**
+    Ensure you have Python 3.13+ and [Manim](https://docs.manim.community/en/stable/installation.html) installed on your system.
 
-   ```sh
-   cd svgs
-   python batch_render.py
-   ```
+2.  **Install Dependencies:**
+    Clone the repository and install the required packages.
+    ```sh
+    git clone https://github.com/asup20cs/svgnim.git
+    cd svgnim
+    pip install .
+    ```
 
-   - Videos will be saved in `svgs/output`.
-   - To force re-render all videos, use:
-     ```sh
-     python batch_render.py -frr
-     ```
+3.  **Run the GUI:**
+    ```sh
+    python gui.py
+    ```
 
 ---
 
-## 🖥️ Packaging for Windows (GUI)
+## 🖥️ Building a Standalone Windows Executable
 
-To create a standalone Windows executable (`.exe`) from the GUI, you can use PyInstaller. This allows you to run the application without needing to install Python or any dependencies on the target machine, with the exception of `ffmpeg`.
+This project uses GitHub Actions to automatically build a standalone `.exe` file for Windows. This allows users to run the GUI without installing Python or any dependencies.
 
-**1. Prerequisite: `ffmpeg`**
+1.  **Trigger the Build:**
+    - Go to the [Actions tab](https://github.com/asup20cs/svgnim/actions) in the GitHub repository.
+    - In the left sidebar, click on **"Build Windows Executable"**.
+    - Click the **"Run workflow"** button to start the build process.
 
-Manim relies on `ffmpeg` to render videos. PyInstaller does not bundle this. The end-user must:
-   - **Download `ffmpeg`:** Get a static build from the [official ffmpeg website](https://ffmpeg.org/download.html).
-   - **Make it accessible:** Place `ffmpeg.exe` in the same folder as the final `SVGNimGUI.exe` OR add the `ffmpeg/bin` directory to the system's PATH environment variable.
-
-**2. Install PyInstaller**
-
-In your project's virtual environment, install PyInstaller:
-```sh
-uv pip install pyinstaller
-```
-
-**3. Run the PyInstaller Command**
-
-To create a Windows executable, you must run this command **on a Windows machine**. Open a command prompt, navigate to the project root, and execute:
-```bash
-pyinstaller --name SVGNimGUI --onedir --windowed --add-data "svgs/animate_scene.py;svgs" gui.py
-```
-- `--name`: Sets the executable's name.
-- `--onedir`: Bundles the app into a single folder.
-- `--windowed`: Hides the console window when the GUI runs.
-- `--add-data`: Crucially includes the Manim scene script.
-
-**4. Distribute the Application**
-
-After PyInstaller finishes, a `dist/SVGNimGUI` folder will be created. To share the application, **zip and send this entire folder**. The user can run `SVGNimGUI.exe` from inside it.
+2.  **Download the Application:**
+    - Once the workflow is complete, an "Artifact" named **"SVGNim-Windows-Executable"** will be available for download on the workflow summary page.
+    - Download the artifact, unzip it, and run `SVGNimGUI.exe`.
 
 ---
 
 ## 🖌️ Customizing Animations
 
-Edit `animate_scene.py` to change how your SVGs are animated. Example:
+Edit `svgs/animate_scene.py` to change how your SVGs are animated. Example:
 
 ```python
 class AnimateSVG(Scene):
@@ -113,6 +106,7 @@ class AnimateSVG(Scene):
         self.wait(1)
         # Add more animations here!
 ```
+
 
 ---
 
