@@ -27,6 +27,7 @@ jobs:
       - name: Install uv and project dependencies
         run: |
           pip install uv
+          uv venv
           uv pip install . pyinstaller
 
       # 4. Run the build script
