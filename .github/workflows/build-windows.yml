@@ -1,0 +1,43 @@
+# GitHub Actions workflow to build the SVGNim Windows executable
+# This workflow is triggered manually by the user.
+
+name: Build Windows Executable
+
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+
+    steps:
+      # 1. Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Sets up Python on the runner
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      # 3. Install dependencies using uv
+      - name: Install uv and project dependencies
+        run: |
+          pip install uv
+          uv pip install . pyinstaller
+
+      # 4. Run the build script
+      - name: Run PyInstaller build script
+        run: python build.py
+
+      # 5. Upload the build artifact
+      - name: Upload Windows Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          # Artifact name
+          name: SVGNim-Windows-Executable
+          # Directory to upload
+          path: dist/SVGNimGUI/
